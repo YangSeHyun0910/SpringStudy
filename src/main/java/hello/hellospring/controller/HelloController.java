@@ -46,7 +46,12 @@ public class HelloController {
 
     @GetMapping("hello-api")
     @ResponseBody
-    // json 방식 = 키 : 값 구조
+    /*
+    Spring에서 @ResponseBody를 사용하고, 객체를 반환하면(return 객체;) json 형태로 반환한다. => default
+    json converter, spring converter
+    json 검색해서 공부해 보자.
+    json 방식 = 키 : 값 구조
+    */
     public Hello helloApi(@RequestParam("name") String name) {
         Hello hello = new Hello();
         hello.setName(name);
