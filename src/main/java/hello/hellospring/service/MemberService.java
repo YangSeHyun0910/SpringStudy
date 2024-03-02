@@ -9,7 +9,14 @@ import java.util.Optional;
 
 public class MemberService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    //직접 생성하지 않고, 외부에서 주입받아서 써보자. DI
+    //private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
+
+    //DI 완료
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     //회원가입
     public long join(Member member) {
@@ -20,7 +27,7 @@ public class MemberService {
 //      });
         // 위 코드를 아래처럼 바꿀 수 있다.
         // ctrl+alt+shift+T -> Extract Method 메서드 화 시킴.
-        validateDuplicateMEmber(member);
+        validateDuplicateMember(member);
 
         memberRepository.save(member);
         return member.getId();
@@ -28,8 +35,8 @@ public class MemberService {
 
     // 중복 이름 회원가입 불가
     // ctrl+alt+shift+T -> Extract Method 메서드 화 시킴.
-    private void validateDuplicateMEmber(Member member) {
-        memberRepository.findeByName(member.getName()).ifPresent(m -> {
+    private void validateDuplicateMember(Member member) {
+        memberRepository.findByName(member.getName()).ifPresent(m -> {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         });
     }
@@ -40,7 +47,7 @@ public class MemberService {
     }
 
     public Optional<Member> findOne(Long memberID) {
-        return memberRepository.findeById(memberID);
+        return memberRepository.findById(memberID);
     }
 
 }

@@ -9,7 +9,6 @@ public class MemoryMemberRepository implements MemberRepository {
     private static Map<Long, Member> store = new HashMap<>();
     private static long sequence = 0L;
 
-
     @Override
     public Member save(Member member) {
         member.setId(++sequence);
@@ -18,14 +17,14 @@ public class MemoryMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findeById(Long id) {
+    public Optional<Member> findById(Long id) {
         // Optional.ofNullable
         // id값이 null(없더라도)이여도 사용할 수 있도록 해준다
         return Optional.ofNullable(store.get(id));
     }
 
     @Override
-    public Optional<Member> findeByName(String name) {
+    public Optional<Member> findByName(String name) {
         return store.values().stream().filter(member -> member.getName().equals(name)).findAny();
 
     }
