@@ -1,9 +1,7 @@
 package hello.hellospring.service;
 
-import hello.hellospring.repository.JdbcMemberRepository;
-import hello.hellospring.repository.JdbcTemplateMemberRepository;
-import hello.hellospring.repository.MemberRepository;
-import hello.hellospring.repository.MemoryMemberRepository;
+import hello.hellospring.repository.*;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
@@ -14,13 +12,20 @@ import javax.sql.DataSource;
 @Configuration
 public class SpringConfig {
 
-    private DataSource dataSource;
+    private EntityManager em;
+
+    public SpringConfig(EntityManager em) {
+        this.em = em;
+    }
+
+    //JPA를 사용하고 난 후 JDBC때 사용하던 dataSource는 사용 안해도 된다.
+   /* private DataSource dataSource;
 
     @Autowired
     public SpringConfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-
+    */
     @Bean
     public MemberService memberService() {
         return new MemberService(memberRepository());
@@ -29,11 +34,9 @@ public class SpringConfig {
     @Bean
     public MemberRepository memberRepository() {
 
-        //JdbcTemplate를 적용한 상태.
-        return new JdbcTemplateMemberRepository(dataSource);
+        //JPA를 사용한 상태
+        return new JpaMemberRepository(em);
 
-        //Jdbc를 적용한 리턴값
-//        return new JdbcMemberRepository(dataSource);
 
         /* 구현체 MemberRepository 를 생성한다.
         => public class MemoryMemberRepository implements MemberRepository
@@ -41,5 +44,11 @@ public class SpringConfig {
         ==> 즉, 인터페이스는 new 불가 / 구현체는 new 가능
         */
 //        return new MemoryMemberRepository(); //Jdbc를 사용하게 되면서 주석처리
+
+        //Jdbc를 적용한 리턴값
+//        return new JdbcMemberRepository(dataSource);
+
+        //JdbcTemplate를 적용한 상태.
+//        return new JdbcTemplateMemberRepository(dataSource);
     }
 }

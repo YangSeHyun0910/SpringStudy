@@ -19,9 +19,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	// H2DB 연결을 위한 디펜던시 23,24줄
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	// H2DB 연결을 위한 디펜던시 23번째 줄
 	runtimeOnly 'com.h2database:h2'
+
+	// jdbc를 사용하기 위해 라이브러리 추가 26번째 줄
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	// JPA를 사용하기 위해 라이브러리 추가 29번째 줄
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
