@@ -28,6 +28,20 @@ public class MemberService {
 
     //회원가입
     public long join(Member member) {
+
+        Long start = System.currentTimeMillis();
+
+        //시간 측정하기
+        try {
+            validateDuplicateMember(member);
+            memberRepository.save(member);
+            return member.getId();
+        } finally { //로직이 끝날때에도 시간을 알아야하기 때문에 finally사용
+            long finish = System.currentTimeMillis();
+            long timeMs = finish - start;
+            System.out.println("join timeMs = " + timeMs + "ms");
+        }
+
         //같은 이름이 있는 중복 회원X
 //      Optional<Member> result = memberRepository.findeByName(member.getName());
 //      result.ifPresent(m -> {
@@ -35,10 +49,10 @@ public class MemberService {
 //      });
         // 위 코드를 아래처럼 바꿀 수 있다.
         // ctrl+alt+shift+T -> Extract Method 메서드 화 시킴.
-        validateDuplicateMember(member);
 
-        memberRepository.save(member);
-        return member.getId();
+//      validateDuplicateMember(member);
+//      memberRepository.save(member);
+//      return member.getId();
     }
 
     // 중복 이름 회원가입 불가
