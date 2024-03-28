@@ -1,5 +1,6 @@
 package hello.hellospring.service;
 
+import hello.hellospring.aop.TimeTraceAop;
 import hello.hellospring.repository.*;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,14 @@ public class SpringConfig {
     public MemberService memberService() {
         return new MemberService(memberRepository);
     }
+
+    //AOP를 bean에 등록하기 위해서
+    //클래스에 @Componnent를 사용해도 된다.
+    //=>아래 주석처리한 이유다.
+//    @Bean
+//    public TimeTraceAop timeTraceAop() {
+//        return new TimeTraceAop();
+//    }
 
     //MemberRepository memberRepository() 메서드는 Spring data Jpa를 사용하게 되면서 주석처리
     /*

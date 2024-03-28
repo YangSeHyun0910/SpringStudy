@@ -29,18 +29,23 @@ public class MemberService {
     //회원가입
     public long join(Member member) {
 
-        Long start = System.currentTimeMillis();
+        validateDuplicateMember(member);
+        memberRepository.save(member);
+        return member.getId();
 
-        //시간 측정하기
-        try {
-            validateDuplicateMember(member);
-            memberRepository.save(member);
-            return member.getId();
-        } finally { //로직이 끝날때에도 시간을 알아야하기 때문에 finally사용
-            long finish = System.currentTimeMillis();
-            long timeMs = finish - start;
-            System.out.println("join timeMs = " + timeMs + "ms");
-        }
+        //join실행 시 걸리는 시간을 알아보는 과정
+//        Long start = System.currentTimeMillis();
+//
+//        //시간 측정하기
+//        try {
+//            validateDuplicateMember(member);
+//            memberRepository.save(member);
+//            return member.getId();
+//        } finally { //로직이 끝날때에도 시간을 알아야하기 때문에 finally사용
+//            long finish = System.currentTimeMillis();
+//            long timeMs = finish - start;
+//            System.out.println("join timeMs = " + timeMs + "ms");
+//        }
 
         //같은 이름이 있는 중복 회원X
 //      Optional<Member> result = memberRepository.findeByName(member.getName());
@@ -65,15 +70,19 @@ public class MemberService {
 
     // 전체 회원 조회
     public List<Member> findMembers() {
-        long start = System.currentTimeMillis();
 
-        try {
-            return memberRepository.findAll();
-        }finally {
-            long finish = System.currentTimeMillis();
-            long timeMs = finish - start;
-            System.out.println("findMembers " + timeMs + "ms");
-        }
+        return memberRepository.findAll();
+
+        //목록(List)실행 시 걸리는 시간을 알아보는 과정
+//        long start = System.currentTimeMillis();
+//
+//        try {
+//            return memberRepository.findAll();
+//        }finally {
+//            long finish = System.currentTimeMillis();
+//            long timeMs = finish - start;
+//            System.out.println("findMembers " + timeMs + "ms");
+//        }
     }
 
     public Optional<Member> findOne(Long memberID) {
